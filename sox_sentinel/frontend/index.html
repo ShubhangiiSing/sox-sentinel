@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111c2d"><title>SOX Sentinel | Controls monitoring</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">S</span><span>SOX <b>SENTINEL</b><small>CONTINUOUS CONTROLS</small></span></a>
+    <div class="workspace"><span class="workspace-icon">N</span><span><b>Northstar Demo</b><small>Demo workspace</small></span><span class="chevron">⌄</span></div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+    <button class="nav-item" data-view="controls"><span>◎</span> Control testing</button>
+    <button class="nav-item" data-view="findings"><span>⚑</span> Findings <i id="nav-count">0</i></button>
+    <button class="nav-item" data-view="evidence"><span>▤</span> Evidence</button>
+    <button class="nav-item" data-view="reports"><span>▥</span> Reports</button>
+    <div class="sidebar-bottom"><div class="avatar">AR</div><span><b>Alex Rivera</b><small>IT Audit · Reviewer</small></span><span class="chevron">•••</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb">SOX Sentinel <span>/</span> <b id="crumb-label">Overview</b></div><div class="top-actions"><span class="live"><i></i> Local environment</span><button class="icon-button" title="Refresh data" id="refresh">↻</button><div class="avatar small">AR</div></div></header>
+    <div class="content">
+      <section id="overview-view" class="view">
+        <div class="page-heading"><div><div class="eyebrow">MONITORING · FY 2026</div><h1>Control overview</h1><p>A current view of automated testing across your IT control environment.</p></div><div class="heading-actions"><button class="button secondary" id="seed-demo">↻ &nbsp;Load demo data</button><button class="button primary" id="quick-run">▶ &nbsp;Run IAM-001</button></div></div>
+        <div class="notice"><span class="notice-icon">i</span><span><b>Auditor review required</b><small>Automated results are preliminary. Review evidence and conclusions before relying on them.</small></span><button class="dismiss" aria-label="Dismiss">×</button></div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top">CONTROL RUNS <span class="stat-icon blue">◎</span></div><strong id="stat-runs">—</strong><small>All recorded test executions</small></article>
+          <article class="stat-card"><div class="stat-top">OPEN FINDINGS <span class="stat-icon red">⚑</span></div><strong id="stat-findings">—</strong><small>Require investigation or action</small></article>
+          <article class="stat-card"><div class="stat-top">EXCEPTIONS <span class="stat-icon amber">!</span></div><strong id="stat-exceptions">—</strong><small>Control runs with exceptions</small></article>
+          <article class="stat-card"><div class="stat-top">EVIDENCE FILES <span class="stat-icon green">▤</span></div><strong id="stat-evidence">—</strong><small>Integrity tracked with SHA-256</small></article>
+        </div>
+        <div class="section-heading"><div><h2>Control coverage</h2><p>Procedures available in the local catalogue</p></div><button class="text-button" data-goto="controls">View all controls →</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>CONTROL</th><th>DOMAIN</th><th>PROCEDURE</th><th>LAST RESULT</th><th></th></tr></thead><tbody id="overview-controls"></tbody></table></div></div>
+        <div class="section-heading"><div><h2>Recent findings</h2><p>Latest exceptions from executed control tests</p></div><button class="text-button" data-goto="findings">View findings →</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>FINDING</th><th>CONTROL</th><th>SEVERITY</th><th>STATUS</th><th>DETECTED</th></tr></thead><tbody id="overview-findings"></tbody></table></div></div>
+      </section>
+      <section id="controls-view" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">CONTROL LIBRARY</div><h1>Control testing</h1><p>Run a procedure against the currently imported population.</p></div><button class="button secondary" id="seed-demo-2">↻ &nbsp;Load demo data</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>CONTROL</th><th>DOMAIN</th><th>PROCEDURE</th><th>DESCRIPTION</th><th>ACTION</th></tr></thead><tbody id="controls-table"></tbody></table></div></div>
+      </section>
+      <section id="findings-view" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">EXCEPTIONS & ACTIONS</div><h1>Findings</h1><p>Investigate exceptions and track remediation to completion.</p></div></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>FINDING</th><th>CONTROL</th><th>SEVERITY</th><th>DETAIL</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody id="findings-table"></tbody></table></div></div>
+      </section>
+      <section id="evidence-view" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">AUDIT TRAIL</div><h1>Evidence</h1><p>Upload source files and verify that stored copies have not changed.</p></div></div>
+        <div class="panel upload-panel"><div class="upload-symbol">↑</div><div><h2>Add evidence file</h2><p>Files up to 20 MB are stored locally and fingerprinted with SHA-256.</p></div><label class="button primary file-button">Choose file<input id="evidence-file" type="file"></label></div>
+        <div id="upload-result" class="upload-result hidden"></div>
+        <div class="empty-state"><div class="empty-icon">▤</div><h3>Evidence is linked to control runs</h3><p>Uploaded evidence IDs are attached when you run a control. The API retains the hash and original file.</p></div>
+      </section>
+      <section id="reports-view" class="view hidden">
+        <div class="page-heading"><div><div class="eyebrow">EXPORTS</div><h1>Audit reports</h1><p>Download the current runs and findings as a JSON workpaper.</p></div><button class="button primary" id="download-report">↓ &nbsp;Download JSON</button></div>
+        <div class="report-card"><div class="report-icon">{ }</div><div><h2>Control testing workpaper</h2><p>Includes test runs, results, evidence references, and findings.</p></div><button class="button secondary" id="preview-report">Preview</button></div>
+        <pre id="report-preview" class="report-preview hidden"></pre>
+      </section>
+      <footer><span>SOX SENTINEL <b>·</b> LOCAL PROTOTYPE</span><span>Preliminary results require auditor review</span></footer>
+    </div>
+  </main>
+  <div id="toast" class="toast"></div>
+  <dialog id="remediation-dialog"><form method="dialog" id="remediation-form"><div class="dialog-heading"><div><div class="eyebrow">REMEDIATION TRACKING</div><h2>Assign an action</h2></div><button class="icon-button" value="cancel">×</button></div><input type="hidden" id="finding-id"><label>Remediation action<input required id="remediation-action" placeholder="Describe the corrective action"></label><div class="form-row"><label>Owner<input required id="remediation-owner" placeholder="Team or owner"></label><label>Due date<input id="remediation-due" type="date"></label></div><button class="button primary full" id="save-remediation" value="default">Create remediation</button></form></dialog>
+  <script src="/app.js"></script>
+</body></html>
