@@ -28,6 +28,11 @@ def application(environ, start_response):
         elif method=="POST" and path=="/remediations": result=core.create_remediation(body["finding_id"],body["action"],body["owner"],body.get("due_date")); code="201 Created"
         elif method=="PATCH" and path.startswith("/remediations/"):
             result=core.update_remediation(path.rsplit("/",1)[-1],body["status"]); code="200 OK"
+        elif method=="GET" and path=="/audit-log/verify": result=core.verify_audit_log(); code="200 OK"
+        elif method=="GET" and path.startswith("/runs/") and path.endswith("/reperform"):
+            result=core.reperform_run(path.split("/")[2]); code="200 OK"
+        elif method=="GET" and path.startswith("/runs/") and path.count("/")==2:
+            result=core.get_run(path.split("/")[2]); code="200 OK"
         elif method=="GET" and path.startswith("/evidence/") and path.endswith("/verify"):
             result=core.verify_evidence(path.split("/")[2]); code="200 OK"
         else: result={"error":"not_found"}; code="404 Not Found"
